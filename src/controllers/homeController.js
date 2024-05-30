@@ -1,5 +1,6 @@
 import db from '../models/index';
 import CRUDService from '../services/CRUDService';
+
 let getHomePage = async (req, res) => {
     try {
         let data = await db.User.findAll()
@@ -66,6 +67,17 @@ let putCRUD = async (req, res) => {
     });
 
 }
+
+let deleteCURD = async (req, res) => {
+    let id = req.query.id;
+    if (id) {
+        await CRUDService.deleteUserById(id);
+        return res.send('Delete success!');
+    } else {
+        return res.send('user not found');
+    }
+}
+
 module.exports = {
     getHomePage: getHomePage,
     getMe: getMe,
@@ -74,4 +86,5 @@ module.exports = {
     displayGetCRUD: displayGetCRUD,
     getEditCRUD: getEditCRUD,
     putCRUD: putCRUD,
+    deleteCURD: deleteCURD,
 }

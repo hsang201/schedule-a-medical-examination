@@ -4,6 +4,7 @@ import { where } from 'sequelize';
 
 const salt = bcrypt.genSaltSync(10);
 
+//tạo user mới
 let createNewUser = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -30,6 +31,7 @@ let createNewUser = async (data) => {
     // console.log(hashPasswordFromBcrypt)
 }
 
+//ẩn pass
 let hashUserPassword = (password) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -41,6 +43,7 @@ let hashUserPassword = (password) => {
     })
 }
 
+//hiển thị table user
 let getAllUser = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -54,6 +57,7 @@ let getAllUser = () => {
     })
 }
 
+//hiển thị 1 user
 let getUserInfoById = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -73,6 +77,7 @@ let getUserInfoById = (userId) => {
     })
 }
 
+//chỉnh sửa user
 let updateUserData = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -96,9 +101,27 @@ let updateUserData = (data) => {
         }
     })
 }
+
+let deleteUserById = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { id: userId }
+            })
+            if (user) {
+                await user.destroy();
+            }
+
+            resolve();
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
 module.exports = {
     createNewUser: createNewUser,
     getAllUser: getAllUser,
     getUserInfoById: getUserInfoById,
-    updateUserData: updateUserData
+    updateUserData: updateUserData,
+    deleteUserById: deleteUserById,
 }

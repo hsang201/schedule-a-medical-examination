@@ -1,14 +1,11 @@
 'use strict';
+
+const { sequelize } = require("../models");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Users', {
-      //   id: DataTypes.STRING,
-      // email: DataTypes.STRING,
-      // firstName: DataTypes.STRING,
-      // lastName: DataTypes.STRING,
-      // address: DataTypes.STRING,
-      // gender: DataTypes.BOOLEAN,
-      // roleid: DataTypes.STRING
+
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,30 +13,41 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       email: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        unique: true
       },
       password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       firstName: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       lastName: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       address: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       gender: {
-        type: Sequelize.BOOLEAN
-      },
-      roleId: {
+        allowNull: false,
         type: Sequelize.STRING
       },
+      roleId: {
+        allowNull: false,
+        type: Sequelize.STRING,
+
+      },
       phonenumber: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       positionId: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       image: {

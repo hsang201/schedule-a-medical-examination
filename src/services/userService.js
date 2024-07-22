@@ -25,6 +25,7 @@ let handleUserLogin = (email, password) => {
             userData.errMessage = "ok";
             delete user.password;
             userData.user = user;
+            console.log('check', userData);
           } else {
             userData.errCode = 3;
             userData.errMessage = `wrong password`;
@@ -148,10 +149,6 @@ let deleteUser = (userId) => {
     await db.User.destroy({
       where: { id: userId },
     });
-    // if (foundUser) {
-    //   await foundUser.destroy();
-    // }
-
     resolve({
       errCode: 0,
       errMessage: `User is deleted`,
@@ -176,6 +173,10 @@ let updateUser = (data) => {
         user.firstName = data.firstName;
         user.lastName = data.lastName;
         user.address = data.address;
+        user.roleId = data.roleId;
+        user.positionId = data.positionId;
+        user.gender = data.gender;
+        user.phonenumber = data.phonenumber;
 
         await user.save();
         resolve({

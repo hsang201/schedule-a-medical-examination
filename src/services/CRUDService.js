@@ -26,7 +26,6 @@ let createNewUser = async (data) => {
     }
   });
 };
-
 //ẩn pass
 let hashUserPassword = (password) => {
   return new Promise(async (resolve, reject) => {
@@ -38,7 +37,6 @@ let hashUserPassword = (password) => {
     }
   });
 };
-
 //hiển thị table user
 let getAllUser = () => {
   return new Promise(async (resolve, reject) => {

@@ -18,11 +18,11 @@ let handleLogin = async (req, res) => {
     });
   }
   let userData = await userService.handleUserLogin(email, password);
-  console.log(userData); //check email exist
   //compare password
   //return userinfo
   //access_token: jwt (json web token)
   return res.status(200).json({
+    user: userData.data,
     jwtToken: generateAccessToken({
       email: userData.user.email,
       role: userData.user.roleId,

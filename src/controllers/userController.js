@@ -4,13 +4,12 @@ const jwt = require('jsonwebtoken');
 
 function generateAccessToken(info) {
   console.log(info)
-  return jwt.sign(info, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+  // return jwt.sign(info, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
 }
 
 let handleLogin = async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
-  console.log(email)
   if (!email || !password) {
     return res.status(500).json({
       errCode: 1,
@@ -22,14 +21,14 @@ let handleLogin = async (req, res) => {
   //return userinfo
   //access_token: jwt (json web token)
   return res.status(200).json({
-    user: userData.data,
-    jwtToken: generateAccessToken({
-      email: userData.user.email,
-      role: userData.user.roleId,
-    }),
+    // user: userData.data,
+    // jwtToken: generateAccessToken({
+    //   email: userData.user.email,
+    //   role: userData.user.roleId,
+    // }),
     errCode: userData.errCode,
     message: userData.errMessage,
-    // user: userData.user ? userData.user : {},
+    user: userData.user ? userData.user : {},
   });
 };
 

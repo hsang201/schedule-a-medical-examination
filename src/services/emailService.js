@@ -14,7 +14,7 @@ let sendSimpleEmail = async (dataSend) => {
     });
 
     let info = await transporter.sendMail({
-        from: '"Medicare - Medicare Clinic 👻" <maddison53@ethereal.email>', // sender address
+        from: '"Medicare - Medicare Clinic 👻" <medicareclinic@gmail.com>', // sender address
         to: dataSend.receiverEmail, // list of receivers
         subject: "XÁC NHẬN THÔNG TIN ĐẶT LỊCH KHÁM BỆNH", // Subject line
         html: `
@@ -25,15 +25,17 @@ let sendSimpleEmail = async (dataSend) => {
         <div><b>Thời gian: ${dataSend.time}</b></div>
     
         <p>Chúng tôi xác nhận thông tin đặt lịch trên của bạn là đúng sự thật. Vui lòng nhấp vào chữ 
-        <a href=${dataSend.redirectLink} targe="_blank">XÁC NHẬN</a> bên dưới
+        <a href=${dataSend.redirectLink} targe="_blank">XÁC NHẬN</a> 
         để xác nhận và hoàn tất thủ tục đặt lịch khám bệnh.</p>
     
         <div>Cảm ơn bạn đã tin tưởng lựa chọn dịch vụ của chúng tôi. Chúng tôi rất mong được gặp bạn sớm.</div>
         <div>
-        Thông Tin Quan Trọng:
-        <p>Vui lòng đến sớm 15 phút để hoàn tất các thủ tục cần thiết.</p>
-        <p>Mang theo CMND, thẻ bảo hiểm và các hồ sơ y tế liên quan.</p>
-        <p>Nếu bạn cần đổi lịch hoặc hủy cuộc hẹn, vui lòng liên hệ với chúng tôi ít nhất 24 giờ trước giờ hẹn.</p>
+        <p><strong> Thông Tin Quan Trọng: </strong></p>
+        <ul>
+            <li>Vui lòng đến sớm 15 phút để hoàn tất các thủ tục cần thiết.</li>
+            <li>Mang theo CMND, thẻ bảo hiểm và các hồ sơ y tế liên quan.</li>
+            <li>Nếu bạn cần đổi lịch hoặc hủy cuộc hẹn, vui lòng liên hệ với chúng tôi ít nhất 24 giờ trước giờ hẹn.</li>
+        </ul>
         </div>
     
     `, // html body

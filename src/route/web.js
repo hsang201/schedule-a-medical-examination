@@ -3,6 +3,7 @@ import homeController, { getHomePage } from "../controllers/homeController";
 import userController from "../controllers/userController";
 import doctorController from "../controllers/doctorController";
 import patientController from "../controllers/patientController";
+import specialtyController from "../controllers/specialtyController";
 const jwt = require('jsonwebtoken');
 let router = express.Router();
 
@@ -56,6 +57,9 @@ let initWebRoutes = (app) => {
   //patient booking
   router.post("/api/patient-book-appointmnet", patientController.postBookAppointment);
   router.post("/api/verify-book-appointmnet", patientController.postVerifyBookAppointment);
+
+  //specialty
+  router.post('/api/create-new-specialty', specialtyController.createSpecialty)
 
   return app.use("/", router);
 };

@@ -12,7 +12,7 @@ let getTopDoctorHome = (limitInput) => {
             let users = await db.User.findAll({
                 limit: limitInput,
                 where: { roleId: 'R2' },
-                order: [['createdAt', 'DESC']],
+                // order: [['createdAt', 'DESC']],
                 attributes: {
                     exclude: ['password']
                 },
@@ -169,7 +169,7 @@ let getDetailDoctorById = (inputId) => {
                 })
 
                 if (data && data.image) {
-                    data.image = new Buffer.from(data.image, 'base64').toString('binary');
+                    data.image = Buffer.from(data.image, 'base64').toString('binary');
                 }
 
                 if (!data) data = {};
@@ -346,7 +346,7 @@ let getProfileDoctorById = (inputId) => {
                 })
 
                 if (data && data.image) {
-                    data.image = new Buffer.from(data.image, 'base64').toString('binary');
+                    data.image = Buffer.from(data.image, 'base64').toString('binary');
                 }
 
                 if (!data) data = {};

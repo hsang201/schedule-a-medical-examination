@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import db from "../models/index";
 import { raw } from "body-parser";
-import { flatMap, times } from "lodash";
+import { first, flatMap, times } from "lodash";
 import emailService from './emailService'
 import { where } from 'sequelize';
 
@@ -15,7 +15,10 @@ let buildUrlEmail = (doctorId, token) => {
 let postBookAppointment = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.email || !data.doctorId || !data.timeType || !data.date || !data.fullName) {
+            if (!data.email || !data.doctorId || !data.timeType
+                || !data.date || !data.fullName
+                || !data.address || !data.selectedGender
+            ) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing parameter'
@@ -34,7 +37,10 @@ let postBookAppointment = (data) => {
                 let user = await db.User.findOrCreate({
                     where: {
                         email: data.email,
-                        roleId: 'R3'
+                        roleId: 'R3',
+                        gender: data.selectedGender,
+                        address: data.address,
+                        firstName: data.fullName
                     },
                     raw: true
                 });
@@ -75,7 +81,7 @@ let postVerifyBookAppointment = (data) => {
                     errMessage: 'Missing parameter'
                 })
             } else {
-                let appointmnet = await db.Booking.findOne({
+                let appointment = await db.Booking.findOne({
                     where: {
                         doctorId: data.doctorId,
                         token: data.token,
@@ -84,9 +90,9 @@ let postVerifyBookAppointment = (data) => {
                     raw: false
                 })
 
-                if (appointmnet) {
-                    appointmnet.statusId = 'S2';
-                    await appointmnet.save();
+                if (appointment) {
+                    appointment.statusId = 'S2';
+                    await appointment.save();
                     resolve({
                         errCode: 0,
                         errMessage: 'Cập nhật lịch khám thánh công!'
@@ -104,7 +110,9 @@ let postVerifyBookAppointment = (data) => {
     })
 }
 
+
+
 module.exports = {
     postBookAppointment: postBookAppointment,
-    postVerifyBookAppointment: postVerifyBookAppointment
+    postVerifyBookAppointment: postVerifyBookAppointment,
 }

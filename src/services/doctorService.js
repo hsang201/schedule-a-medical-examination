@@ -363,6 +363,93 @@ let getProfileDoctorById = (inputId) => {
     })
 }
 
+let getListPatientDoctor = (doctorId, date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorId || !date) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing parameter'
+                })
+            } else {
+                let dataSchedule = await db.Booking.findAll({
+                    where: {
+                        statusId: ['S2', 'S3'],
+                        doctorId: doctorId,
+                        date: date
+                    },
+                    include: [
+                        {
+                            model: db.User, as: 'patientData',
+                            attributes: ["email", 'firstName', 'address', 'gender'],
+                            include: [
+                                {
+                                    model: db.Allcode, as: 'genderData',
+                                    attributes: ['valueEn', 'valueVi']
+                                },
+                            ]
+                        },
+                        {
+                            model: db.Allcode, as: 'timeTypeDataPatient',
+                            attributes: ['valueEn', 'valueVi']
+                        }
+                    ],
+                    raw: false,
+                    nest: true
+                })
+                resolve({
+                    errCode: 0,
+                    data: dataSchedule
+                })
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+
+let updatePatientStatus = async (patientId, doctorId) => {
+    try {
+        console.log(patientId);
+        console.log(doctorId);
+        if (!patientId || !doctorId) {
+            return {
+                errCode: 1,
+                errMessage: 'Missing parameter'
+            };
+        }
+
+        let appointment = await db.Booking.findOne({
+            where: {
+                doctorId: doctorId,
+                patientId: patientId,
+                statusId: 'S2'  // Đảm bảo chỉ cập nhật khi statusId là 'S2'
+            }, raw: false
+        });
+        console.log(appointment);
+        if (appointment) {
+            appointment.statusId = 'S3';  // Cập nhật statusId thành 'S3'
+            await appointment.save();
+            return {
+                errCode: 0,
+                errMessage: 'Update the appointment succeed'
+            };
+        } else {
+            return {
+                errCode: 2,
+                errMessage: 'Appointment not found or already confirmed'
+            };
+        }
+    } catch (e) {
+        console.error(e);
+        return {
+            errCode: 500,
+            errMessage: 'Internal server error'
+        };
+    }
+};
+
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -371,5 +458,7 @@ module.exports = {
     bulkCreateSchedule: bulkCreateSchedule,
     getScheduleByDate: getScheduleByDate,
     getInforDoctorById: getInforDoctorById,
-    getProfileDoctorById: getProfileDoctorById
+    getProfileDoctorById: getProfileDoctorById,
+    getListPatientDoctor: getListPatientDoctor,
+    updatePatientStatus: updatePatientStatus
 }

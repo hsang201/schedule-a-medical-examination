@@ -29,7 +29,8 @@ let postVerifyBookAppointment = async (req, res) => {
 }
 
 
+
 module.exports = {
     postBookAppointment: postBookAppointment,
-    postVerifyBookAppointment: postVerifyBookAppointment
+    postVerifyBookAppointment: postVerifyBookAppointment,
 }

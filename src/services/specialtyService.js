@@ -39,7 +39,7 @@ let getAllSpecialty = () => {
                 data = data.map(item => {
                     // Check if item.image exists and is not null
                     if (item.image) {
-                        item.image = new Buffer(item.image, 'base64').toString('binary');
+                        item.image = Buffer.from(item.image, 'base64').toString('binary');
                     }
                     return item;
                 });
